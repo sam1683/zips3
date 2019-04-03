@@ -22,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "zips3/lambda.js",
-        "code": "/**\n * \n * SJP\n * \n */\n\nlet AWS = require('aws-sdk');\nlet JSZip = require(\"jszip\");\nlet fs = require(\"fs\");\nconst s3 = new AWS.S3();\n\n\nexports.handler = function(event, context, callback) {\n    \n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}\n\nlet changes = event.changes;\nlet modified = 0, removed = 0;",
+        "code": "let AWS = require('aws-sdk');\nlet JSZip = require(\"jszip\");\nlet fs = require(\"fs\");\nconst s3 = new AWS.S3();\nexports.handler = function (event, context, callback) {\n    /* The request payload will take the following format:\n    {\n        \"path\": \"path/to/zip/file/within/bucket\",\n        \"changes\": {\n            \"path/to/new/file/1\": \"content for file 1\",\n            \"path/to/existing/file/2\": \"new content of file 2\",\n            \"path/to/deleted/file/3\": null\n        }\n    }\n     */\n    let changes = event.changes;\n    let modified = 0, removed = 0;\n    console.log(\"Fetching ${event.path}\");\n    s3.getObject({\n        'Bucket': \"qas-ffee-nipro\",\n        'Key': event.path\n    }).promise()\n        .then(data => {\n            let jszip = new JSZip();\n            console.log(\"Opening ${event.path}\");\n            jszip.loadAsync(data.Body).then(zip => {\n                console.log(\"Opened ${event.path} as zip\");\n                Object.keys(changes).forEach(name => {\n                    if (changes[name] !== null) {\n                        console.log(\"Modify ${name}\");\n                        zip.file(name, changes[name]);\n                        modified++;\n                    } else {\n                        console.log(\"Remove ${name}\");\n                        zip.remove(name);\n                        removed++;\n                    }\n                });\n                let tmpPath = \"/tmp/${event.path}\"\n                console.log(\"Writing to temp file ${tmpPath}\");\n                zip.generateNodeStream({ streamFiles: true })\n                    .pipe(fs.createWriteStream(tmpPath))\n                    .on('error', err => callback(err))\n                    .on('finish', function () {\n                        console.log(\"Uploading to ${event.path}\");\n                        s3.putObject({\n                            \"Body\": fs.createReadStream(tmpPath),\n                            \"Bucket\": \"com.sigma.test.935430225707.sjuarez.us-east-1\",\n                            \"Key\": event.path,\n                            \"Metadata\": {\n                                \"Content-Length\": String(fs.statSync(tmpPath).size)\n                            }\n                        })\n                            .promise()\n                            .then(data => {\n                                console.log(\"Successfully uploaded ${event.path}\");\n                                callback(null, {\n                                    modified: modified,\n                                    removed: removed\n                                });\n                            })\n                            .catch(err => {\n                                callback(err);\n                            });\n                    });\n            })\n                .catch(err => {\n                    callback(err);\n                });\n        })\n        .catch(err => {\n            callback(err);\n        });\n}",
         "triggers": [
           {
             "resourceName": "apigusEast1downloadZipsFfeeget",
@@ -70,6 +70,30 @@
           "stageName": "Prod"
         },
         "globallyEditable": false
+      },
+      "s3qasFfeeNipro": {
+        "name": "s3qasFfeeNipro",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-1",
+            "name": "qas-ffee-nipro"
+          }
+        },
+        "globallyEditable": false
+      },
+      "s3comsigmatest935430225707sjuarezusEast1": {
+        "name": "s3comsigmatest935430225707sjuarezusEast1",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-1",
+            "name": "com.sigma.test.935430225707.sjuarez.us-east-1"
+          }
+        },
+        "globallyEditable": false
       }
     },
     "customTemplate": {
@@ -91,6 +115,12 @@
         "jszip": {
           "name": "jszip",
           "version": "3.2.1"
+        },
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
         }
       }
     }
@@ -102,7 +132,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554328830045
+    "lastSave": 1554331938502
   },
   "VCS_STATE": {
     "provider": "GitHub",

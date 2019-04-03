@@ -4,5 +4,7 @@
   "dependencies": {
     "jszip": "3.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "aws-sdk": "2.176.0"
+  }
 }
