@@ -22,8 +22,13 @@
         "children": [],
         "isRemovable": true,
         "filePath": "zips3/lambda.js",
-        "code": "\n\nexports.handler = function(event, context, callback) {\n    \n\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
-        "triggers": [],
+        "code": "/**\n * \n * SJP\n * \n */\n\nlet AWS = require('aws-sdk');\nlet JSZip = require(\"jszip\");\nlet fs = require(\"fs\");\nconst s3 = new AWS.S3();\n\n\nexports.handler = function(event, context, callback) {\n    \n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}\n\nlet changes = event.changes;\nlet modified = 0, removed = 0;",
+        "triggers": [
+          {
+            "resourceName": "apigusEast1downloadZipsFfeeget",
+            "config": {}
+          }
+        ],
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -40,7 +45,33 @@
       "1f052589-0b34-42a7-a942-ea57e7c5d4ad"
     ],
     "currentFileId": "1f052589-0b34-42a7-a942-ea57e7c5d4ad",
-    "resources": {},
+    "resources": {
+      "apigusEast1downloadZipsFfeeget": {
+        "name": "apigusEast1downloadZipsFfeeget",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "downloadZipsFfee",
+          "apiId": "y1iltb021h",
+          "endpointType": "REGIONAL",
+          "rootResourceId": "yun00ocqsk",
+          "existingResources": {
+            "/": "yun00ocqsk"
+          },
+          "resourceMode": 1,
+          "resourcePath": "/",
+          "resourceName": "",
+          "resourceId": "yun00ocqsk",
+          "restMethod": "GET",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "Prod"
+        },
+        "globallyEditable": false
+      }
+    },
     "customTemplate": {
       "dialect": null,
       "definitions": {}
@@ -71,7 +102,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1554328315272
+    "lastSave": 1554328830045
   },
   "VCS_STATE": {
     "provider": "GitHub",
