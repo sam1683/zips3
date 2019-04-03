@@ -1,0 +1,8 @@
+{
+  "name": "zips3",
+  "version": "1.0.0",
+  "dependencies": {
+    "jszip": "3.2.1"
+  },
+  "devDependencies": {}
+}

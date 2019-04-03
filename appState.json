@@ -1,0 +1,83 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "70864b46-351b-4f31-aabb-9600865569f5": {
+        "id": "70864b46-351b-4f31-aabb-9600865569f5",
+        "parent": null,
+        "name": "zips3",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "1f052589-0b34-42a7-a942-ea57e7c5d4ad"
+        ],
+        "isRemovable": false,
+        "filePath": "zips3"
+      },
+      "1f052589-0b34-42a7-a942-ea57e7c5d4ad": {
+        "id": "1f052589-0b34-42a7-a942-ea57e7c5d4ad",
+        "parent": "70864b46-351b-4f31-aabb-9600865569f5",
+        "name": "lambda.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "zips3/lambda.js",
+        "code": "\n\nexports.handler = function(event, context, callback) {\n    \n\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "triggers": [],
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "testCases": {}
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "70864b46-351b-4f31-aabb-9600865569f5",
+    "openFiles": [
+      "1f052589-0b34-42a7-a942-ea57e7c5d4ad"
+    ],
+    "currentFileId": "1f052589-0b34-42a7-a942-ea57e7c5d4ad",
+    "resources": {},
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "jszip": {
+          "name": "jszip",
+          "version": "3.2.1"
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "zips3",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1554328315272
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "zips3",
+      "url": "https://github.com/sam1683/zips3"
+    }
+  }
+}
