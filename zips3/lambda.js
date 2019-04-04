@@ -3,6 +3,7 @@ let JSZip = require("jszip");
 let fs = require("fs");
 const s3 = new AWS.S3();
 exports.handler = function (event, context, callback) {
+    console.log("Iniciando proceso");
     /* The request payload will take the following format:
     {
         "path": "path/to/zip/file/within/bucket",
@@ -15,7 +16,9 @@ exports.handler = function (event, context, callback) {
      */
     let changes = event.changes;
     let modified = 0, removed = 0;
-    console.log("Fetching ${event.path}");
+    console.log("Accediendo a: ${event.path}");
+
+    
     s3.getObject({
         'Bucket': "qas-ffee-nipro",
         'Key': event.path
