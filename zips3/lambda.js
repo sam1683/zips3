@@ -14,11 +14,13 @@ exports.handler = function (event, context, callback) {
         }
     }
      */
+/*
+
     let changes = event.changes;
     let modified = 0, removed = 0;
     console.log("Accediendo a: ${event.path}");
 
-    
+
     s3.getObject({
         'Bucket': "qas-ffee-nipro",
         'Key': event.path
@@ -74,4 +76,6 @@ exports.handler = function (event, context, callback) {
         .catch(err => {
             callback(err);
         });
+
+        */
 }
